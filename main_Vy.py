@@ -24,7 +24,7 @@ def main():
 def kiem_tra():
     global current_hint # thông báo cho python là mình đang dùng biến ngoài hàm, ko cần phải khởi tại lại trong hàm hiện tại
     ans = form.answer.text() # nhập answer vào
-    if ans.lower() == secret_word.lower(): # biến đầu vào thành chữa thường hết
+    if ans.lower() == secret_word.lower(): # Biến đầu vào thành chữa thường hết
 
         form.textBrowser_2.setPlainText("Correct!") #nếu người chơi đoán đúng thì gán vào ô TextBrowser_ là "Correct"
         tat_nut() # sau khi chiến thắng các nút sẽ bị vô hiệu hóa
@@ -64,4 +64,4 @@ if __name__ == "__main__":
     form.setupUi(window)
     window.show()
     main()
-    app.exec()
+    app.exec())
