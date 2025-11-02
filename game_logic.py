@@ -1,27 +1,32 @@
 from questions import questions
 import random
 
-class GameLogic:
-    def __init__(self):
-        self.score = 100
-        self.current = None
-        self.hint_index = 0
+# Các biến để lưu trạng thái
+score = 100
+current = None
+hint_index = 0
 
     def new_game(self):
-        self.current = random.choice(questions)
-        self.hint_index = 0
-        self.score = 100
-        return self.current["hints"][self.hint_index]
-
-    def check_answer(self, user_answer):
-        if user_answer.strip().lower() == self.current["answer"].lower():
+        """Bắt đầu trò chơi mới và trả về gợi ý đầu tiên"""
+        global current, hint_index, score
+        current = random.choice(questions)
+        hint_index = 0
+        score = 100
+        return current["hints"][hint_index]
+    
+    def check_answer(user_answer):
+        """Kiểm tra đáp án người chơi"""
+        global score
+        if current and user_answer.strip().lower() == current["answer"].lower():
             return True
         else:
-            self.score -= 50
+            score -= 50
             return False
 
-    def get_hint(self):
-        self.hint_index += 1
-        if self.hint_index < len(self.current["hints"]):
-            return self.current["hints"][self.hint_index]
+    def get_hint():
+        """Trả về gợi ý tiếp theo nếu còn"""
+        global hint_index
+        hint_index += 1
+        if current and hint_index < len(current["hints"]):
+            return current["hints"][hint_index]
         return "Hết gợi ý rồi!"
