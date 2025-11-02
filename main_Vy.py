@@ -60,7 +60,7 @@ def ket_thuc():
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = QtWidgets.QMainWindow()
-    form = Ui_MainWindow()            # class đến từ giaodien.py
+    form = Ui_MainWindow()            # class come from  giaodien.py
     form.setupUi(window)
     window.show()
     main()
