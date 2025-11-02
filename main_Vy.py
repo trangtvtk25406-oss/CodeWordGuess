@@ -22,7 +22,7 @@ def main():
     form.textBrowser_2.setPlainText("Let's start guessing!")
 
 def kiem_tra():
-     current_hint # thông báo cho python là mình đang dùng biến ngoài hàm, ko cần phải khởi tại lại trong hàm hiện tại
+    global current_hint # thông báo cho python là mình đang dùng biến ngoài hàm, ko cần phải khởi tại lại trong hàm hiện tại
     ans = form.answer.text() # nhập answer vào
     if ans.lower() == secret_word.lower(): # Biến đầu vào thành chữa thường hết
 
