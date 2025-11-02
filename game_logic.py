@@ -1,5 +1,5 @@
 from questions import questions
-import 
+import random
 
 # Các biến để lưu trạng thái
 score = 100
@@ -30,4 +30,5 @@ hint_index = 0
         if current and hint_index < len(current["hints"]):
             return current["hints"][hint_index]
         return "Hết gợi ý rồi!"
+
 
