@@ -1,46 +1,48 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
+from PyQt6.QtWidgets import QApplication, QMessageBox
+from PyQt6.QtWidgets import QMainWindow
 from mainwindow import Ui_MainWindow
-from game_logic import GameLogic
+import game_logic as gl  # Import file logic dưới dạng module
 
-class MainGame(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+# Các hàm xử lý:
 
-        # Khởi tạo logic
-        self.logic = GameLogic()
+def start_game():
+    """Bắt đầu trò chơi mới"""
+    hint = gl.new_game()
+    ui.ogoiy.setText(hint)
+    ui.onhapdapan.setText("")
+    ui.label.setText(f"Điểm: {gl.score}")
 
-        # Kết nối nút
-        self.ui.ok.clicked.connect(self.check_answer)
-        self.ui.batdau.clicked.connect(self.start_game)
-        self.ui.choilai.clicked.connect(self.start_game)  # chơi lại
-        self.ui.thoat.clicked.connect(self.close)
+def check_answer():
+    """Kiểm tra câu trả lời của người chơi"""
+    ans = ui.onhapdapan.text()
+    if gl.check_answer(ans):
+        QMessageBox.information(window, "Kết quả", "Đúng rồi!")
+        start_game()
+    else:
+        hint = gl.get_hint()
+        ui.ogoiy.setText(hint)
+        if hint == "Hết gợi ý rồi!":
+            QMessageBox.warning(window, "Kết quả", "Bạn đã hết lượt! Nhấn Chơi lại để thử lại.")
+        ui.label.setText(f"Điểm: {gl.score}")
 
-        # Cập nhật điểm ban đầu
-        self.ui.label.setText(f"Điểm: {self.logic.score}")
+def thoat_game():
+    window.close()
 
-    def start_game(self):
-        hint = self.logic.new_game()
-        self.ui.ogoiy.setText(hint)
-        self.ui.onhapdapan.setText("")
-        self.ui.label.setText(f"Điểm: {self.logic.score}")
+#Chạy chương trình:
+app = QApplication(sys.argv)
+window = QMainWindow()
+ui = Ui_MainWindow()
+ui.setupUi(window)
 
-    def check_answer(self):
-        ans = self.ui.onhapdapan.text()
-        if self.logic.check_answer(ans):
-            QMessageBox.information(self, "Kết quả", "Đúng rồi!")
-            self.start_game()  # sang câu mới
-        else:
-            hint = self.logic.get_hint()
-            self.ui.ogoiy.setText(hint)
-            if hint == "Hết gợi ý rồi!":
-                QMessageBox.warning(self, "Kết quả", "Bạn đã hết lượt! Nhấn Chơi lại để thử lại.")
-            self.ui.label.setText(f"Điểm: {self.logic.score}")
+# Gắn sự kiện cho các nút:
+ui.batdau.clicked.connect(start_game)
+ui.choilai.clicked.connect(start_game)
+ui.ok.clicked.connect(check_answer)
+ui.thoat.clicked.connect(thoat_game)
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainGame()
-    window.show()
-    sys.exit(app.exec())
+# Cập nhật điểm ban đầu:
+ui.label.setText(f"Điểm: {gl.score}")
+
+window.show()
+sys.exit(app.exec())
